@@ -1,5 +1,5 @@
 // Norsk spørsmålsbank for La oss snakke. Utvid eller erstatt med egne oppgaver.
-const QUESTION_BANK = [
+window.QUESTION_BANK = [
   {
     prompt: "Hva liker du å gjøre i helgene?",
     translation: "Что ты любишь делать по выходным?",

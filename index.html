@@ -53,6 +53,7 @@
 
       .card--centered {
         text-align: center;
+        margin-top: -0.5rem;
       }
 
       .card--hidden {
@@ -69,7 +70,9 @@
 
       .card__title {
         margin: 0;
-        font-size: 1.4rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #4a5568;
       }
 
       .button-group {
@@ -77,6 +80,7 @@
         justify-content: center;
         gap: 1rem;
         flex-wrap: wrap;
+        margin-top: 1.6rem;
       }
 
       .button {
@@ -129,12 +133,30 @@
       .question-card {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.2rem;
       }
 
       .question-card__prompt {
-        font-size: 1.1rem;
+        font-size: 1.5rem;
+        font-weight: 700;
         margin: 0;
+        color: #1a202c;
+        line-height: 1.4;
+        padding: 1.2rem 1.4rem;
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 16px;
+        box-shadow: 0 12px 24px rgba(79, 70, 229, 0.12);
+        border-left: 6px solid #6366f1;
+      }
+
+      .question-card__prompt--placeholder {
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: #4a5568;
+        padding: 1rem 1.25rem;
+        background: rgba(99, 102, 241, 0.08);
+        border-left: 4px dashed rgba(168, 85, 247, 0.6);
+        box-shadow: none;
       }
 
       .question-card__actions {
@@ -168,26 +190,6 @@
         color: #6b21a8;
       }
 
-      .ask-textarea {
-        width: 100%;
-        border-radius: 14px;
-        border: 2px solid rgba(99, 102, 241, 0.15);
-        padding: 0.9rem 1.1rem;
-        font-size: 1rem;
-        font-family: inherit;
-        resize: vertical;
-      }
-
-      .ask-textarea:focus-visible {
-        outline: 3px solid rgba(168, 85, 247, 0.2);
-      }
-
-      .ask-mode__hint {
-        margin-top: 0.75rem;
-        color: #4a5568;
-        font-size: 0.95rem;
-      }
-
       @media (max-width: 600px) {
         .app__title {
           font-size: 1.8rem;
@@ -212,14 +214,13 @@
     <main class="app">
       <header class="app__header">
         <h1 class="app__title">La oss snakke</h1>
-        <p class="app__subtitle">Velg hvordan du vil øve: svar på spørsmål eller lag dine egne.</p>
+        <p class="app__subtitle">Øv ved å svare på tilfeldige spørsmål og utforske tips og oversettelser.</p>
       </header>
 
       <section id="mode-selection" class="card card--centered">
-        <h2 class="card__title">Hva vil du gjøre?</h2>
+        <h2 class="card__title">Klar til å starte?</h2>
         <div class="button-group">
           <button id="answer-mode-btn" class="button button--primary">Svar på spørsmål</button>
-          <button id="ask-mode-btn" class="button button--secondary">Still spørsmål</button>
         </div>
       </section>
 
@@ -230,7 +231,9 @@
         </header>
 
         <article class="question-card">
-          <p id="question-text" class="question-card__prompt">Trykk på «Nytt spørsmål» for å starte.</p>
+          <p id="question-text" class="question-card__prompt question-card__prompt--placeholder">
+            Trykk på «Nytt spørsmål» for å starte.
+          </p>
           <div class="question-card__actions">
             <button id="show-translation-btn" class="button button--secondary">Oversettelse</button>
             <button id="show-hints-btn" class="button button--secondary">Tips</button>
@@ -238,18 +241,6 @@
           <p id="question-translation" class="question-card__translation card--hidden"></p>
           <ul id="question-hints" class="question-card__hints card--hidden"></ul>
         </article>
-      </section>
-
-      <section id="ask-mode" class="card card--hidden">
-        <h2 class="card__title">Still ditt eget spørsmål</h2>
-        <p>Bruk dette feltet til å skrive spørsmål du vil ta med til timen eller øve på senere. Å formulere spørsmål på norsk styrker grammatikk og ordforråd.</p>
-        <textarea
-          id="ask-mode-input"
-          class="ask-textarea"
-          rows="6"
-          placeholder="Skriv spørsmålet ditt her…"
-        ></textarea>
-        <p class="ask-mode__hint">Tips: Skriv flere varianter av det samme spørsmålet for å øve på ordstilling og tidsformer.</p>
       </section>
     </main>
 
@@ -262,10 +253,8 @@
 
         const modeSelection = document.getElementById("mode-selection");
         const answerMode = document.getElementById("answer-mode");
-        const askMode = document.getElementById("ask-mode");
 
         const answerModeBtn = document.getElementById("answer-mode-btn");
-        const askModeBtn = document.getElementById("ask-mode-btn");
         const newQuestionBtn = document.getElementById("new-question-btn");
         const showTranslationBtn = document.getElementById("show-translation-btn");
         const showHintsBtn = document.getElementById("show-hints-btn");
@@ -275,6 +264,16 @@
         const questionHints = document.getElementById("question-hints");
 
         let currentQuestionIndex = null;
+        let questionOrder = [];
+        const placeholderClass = "question-card__prompt--placeholder";
+
+        const shuffleOrder = () => {
+          questionOrder = questionBank.map((_, index) => index);
+          for (let i = questionOrder.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [questionOrder[i], questionOrder[j]] = [questionOrder[j], questionOrder[i]];
+          }
+        };
 
         const hideElement = (el) => {
           el.classList.add("card--hidden");
@@ -295,24 +294,27 @@
           if (!questionBank.length) {
             questionText.textContent =
               "Spørsmålsbanken er tom. Legg til flere oppgaver i questions.js.";
+            questionText.classList.add(placeholderClass);
             resetRevealStates();
             return;
           }
 
-          let nextIndex = Math.floor(Math.random() * questionBank.length);
-          if (questionBank.length > 1 && nextIndex === currentQuestionIndex) {
-            nextIndex = (nextIndex + 1) % questionBank.length;
+          if (!questionOrder.length) {
+            shuffleOrder();
           }
-          currentQuestionIndex = nextIndex;
+
+          currentQuestionIndex = questionOrder.pop();
           const question = questionBank[currentQuestionIndex];
 
           questionText.textContent = question.prompt;
+          questionText.classList.remove(placeholderClass);
           resetRevealStates();
         };
 
         const revealTranslation = () => {
           if (currentQuestionIndex === null) {
             questionText.textContent = "Last inn et spørsmål først.";
+            questionText.classList.add(placeholderClass);
             return;
           }
 
@@ -324,6 +326,7 @@
         const revealHints = () => {
           if (currentQuestionIndex === null) {
             questionText.textContent = "Last inn et spørsmål først.";
+            questionText.classList.add(placeholderClass);
             return;
           }
 
@@ -337,20 +340,13 @@
           showElement(questionHints);
         };
 
-        const swapMode = (mode) => {
+        const startAnswerMode = () => {
           hideElement(modeSelection);
-          if (mode === "answer") {
-            showElement(answerMode);
-            hideElement(askMode);
-            pickRandomQuestion();
-          } else {
-            showElement(askMode);
-            hideElement(answerMode);
-          }
+          showElement(answerMode);
+          pickRandomQuestion();
         };
 
-        answerModeBtn?.addEventListener("click", () => swapMode("answer"));
-        askModeBtn?.addEventListener("click", () => swapMode("ask"));
+        answerModeBtn?.addEventListener("click", startAnswerMode);
         newQuestionBtn?.addEventListener("click", pickRandomQuestion);
         showTranslationBtn?.addEventListener("click", revealTranslation);
         showHintsBtn?.addEventListener("click", revealHints);
