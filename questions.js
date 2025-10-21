@@ -1,48 +1,732 @@
 // Norsk spørsmålsbank for La oss snakke. Utvid eller erstatt med egne oppgaver.
-window.QUESTION_BANK = [
-  {
-    prompt: "Hva liker du å gjøre i helgene?",
-    translation: "Что ты любишь делать по выходным?",
-    hints: [
-      "Jeg liker å gå tur i skogen.",
-      "Noen ganger besøker jeg venner.",
-      "Jeg slapper av hjemme og ser på film."
-    ]
-  },
-  {
-    prompt: "Kan du beskrive leiligheten din?",
-    translation: "Ты можешь описать свою квартиру?",
-    hints: [
-      "Leiligheten min er lys og koselig.",
-      "Det er to soverom og en stor stue.",
-      "Kjøkkenet er moderne med nye hvitevarer."
-    ]
-  },
-  {
-    prompt: "Hvilken norsk mat har du prøvd?",
-    translation: "Какую норвежскую еду ты пробовал?",
-    hints: [
-      "Jeg har prøvd brunost og liker den søte smaken.",
-      "Fiskekaker er en favoritt i familien.",
-      "Jeg vil gjerne smake på fårikål neste høst."
-    ]
-  },
-  {
-    prompt: "Hva er planene dine for i morgen?",
-    translation: "Какие у тебя планы на завтра?",
-    hints: [
-      "Jeg skal på jobb klokken åtte.",
-      "Etter jobb skal jeg trene på treningssenteret.",
-      "Om kvelden vil jeg lese en norsk bok."
-    ]
-  },
-  {
-    prompt: "Hvordan reiser du til skolen eller jobben?",
-    translation: "Как ты добираешься до школы или работы?",
-    hints: [
-      "Jeg tar bussen fordi det er lettvint.",
-      "Når det er fint vær, sykler jeg.",
-      "Av og til kjører kollegaen min."
-    ]
-  }
+const QUESTION_BANK = [
+ {
+  prompt: "Er du et A-menneske?",
+  translation: "Ты жаворонок?",
+  hints: [
+    "Ja, jeg liker å stå opp tidlig og drikke kaffe i ro og fred.",
+    "Nei, jeg er mer et B-menneske, jeg jobber best om kvelden.",
+    "Det kommer an på dagen, men vanligvis våkner jeg tidlig."
+  ]
+},
+{
+  prompt: "Bor du alene?",
+  translation: "Ты живёшь один/одна?",
+  hints: [
+    "Nei, jeg bor sammen med familien min.",
+    "Ja, jeg bor alene, men jeg liker det.",
+    "Jeg bor med en venn akkurat nå."
+  ]
+},
+{
+  prompt: "Hvem bor du sammen med?",
+  translation: "С кем ты живёшь?",
+  hints: [
+    "Jeg bor sammen med mannen min og barna våre.",
+    "Jeg bor med en venninne fra jobben.",
+    "Jeg bor med familien min i et hus utenfor byen."
+  ]
+},
+{
+  prompt: "Bor du i en leilighet eller i et hus?",
+  translation: "Ты живёшь в квартире или в доме?",
+  hints: [
+    "Jeg bor i en liten leilighet i sentrum.",
+    "Jeg bor i et stort hus med hage.",
+    "Jeg bor i en blokk nær bussholdeplassen."
+  ]
+},
+{
+  prompt: "Har du kjæledyr?",
+  translation: "У тебя есть домашние животные?",
+  hints: [
+    "Ja, jeg har en katt som heter Nala.",
+    "Nei, men jeg hadde en hund før.",
+    "Nei, jeg har ikke tid til dyr nå."
+  ]
+},
+{
+  prompt: "Hva er ditt favorittdyr?",
+  translation: "Какое твоё любимое животное?",
+  hints: [
+    "Jeg liker katter fordi de er rolige.",
+    "Jeg elsker hunder, de er lojale og morsomme.",
+    "Jeg liker fugler, de synger så fint."
+  ]
+},
+{
+  prompt: "Hva er din favorittmat?",
+  translation: "Какое твоё любимое блюдо?",
+  hints: [
+    "Jeg liker italiensk mat, spesielt pasta.",
+    "Min favorittmat er sushi.",
+    "Jeg elsker norsk laks med poteter."
+  ]
+},
+{
+  prompt: "Hva er din favorittby i verden?",
+  translation: "Какой твой любимый город в мире?",
+  hints: [
+    "Jeg liker Paris, det er så vakkert der.",
+    "Oslo er favorittbyen min, jeg føler meg hjemme der.",
+    "Jeg elsker Barcelona, særlig klimaet og maten."
+  ]
+},
+{
+  prompt: "Hva er din favorittfilm?",
+  translation: "Какой твой любимый фильм?",
+  hints: [
+    "Jeg liker filmen 'Forrest Gump', den er rørende.",
+    "Min favorittfilm er 'The Shawshank Redemption'.",
+    "Jeg liker romantiske komedier, de gjør meg glad."
+  ]
+},
+{
+  prompt: "Hva er din favorittbok?",
+  translation: "Какая твоя любимая книга?",
+  hints: [
+    "Jeg liker 'Harry Potter', jeg har lest alle bøkene.",
+    "Min favorittbok er 'Sofies verden'.",
+    "Jeg liker å lese krim, spesielt Jo Nesbø."
+  ]
+},
+{
+  prompt: "Hva er din favorittfarge?",
+  translation: "Какой твой любимый цвет?",
+  hints: [
+    "Jeg liker blå, det minner meg om havet.",
+    "Grønn er favorittfargen min, den gir meg ro.",
+    "Jeg liker svart, det passer til alt."
+  ]
+},
+{
+  prompt: "Hva er din favorittdrikke?",
+  translation: "Какой твой любимый напиток?",
+  hints: [
+    "Jeg liker kaffe med melk.",
+    "Favorittdrikken min er te med honning.",
+    "Jeg drikker mest vann, det er best for helsa."
+  ]
+},
+{
+  prompt: "Hva er din favorittårstid?",
+  translation: "Какое твоё любимое время года?",
+  hints: [
+    "Jeg liker sommeren fordi det er varmt og lyst.",
+    "Høsten er favoritten min, jeg elsker fargene.",
+    "Jeg liker vinteren fordi jeg kan stå på ski."
+  ]
+},
+{
+  prompt: "Hva er din favorittmåned i året?",
+  translation: "Какой твой любимый месяц в году?",
+  hints: [
+    "Jeg liker juli, fordi jeg har ferie da.",
+    "Desember er min favorittmåned på grunn av julen.",
+    "Jeg liker mai, alt blir grønt og fint."
+  ]
+},
+{
+  prompt: "Hva er din favorittdag i uken?",
+  translation: "Какой твой любимый день недели?",
+  hints: [
+    "Jeg liker fredag, fordi helgen begynner.",
+    "Lørdag er favoritten min, jeg kan sove lenge.",
+    "Jeg liker søndag, da slapper jeg helt av."
+  ]
+},
+{
+  prompt: "Hva er din favorittsang?",
+  translation: "Какая твоя любимая песня?",
+  hints: [
+    "Jeg liker 'Someone Like You' av Adele.",
+    "Favorittsangen min er 'Imagine' av John Lennon.",
+    "Jeg hører ofte på norsk musikk, for eksempel Karpe."
+  ]
+}
+{
+  prompt: "Hva er ditt favoritt-TV-program?",
+  translation: "Какая твоя любимая телепередача?",
+  hints: [
+    "Jeg liker å se på 'Skavlan'.",
+    "Favorittprogrammet mitt er 'Nytt på nytt'.",
+    "Jeg ser ofte på dokumentarer på NRK."
+  ]
+},
+{
+  prompt: "Hva foretrekker du: te eller kaffe?",
+  translation: "Что ты предпочитаешь: чай или кофе?",
+  hints: [
+    "Jeg liker kaffe best, spesielt om morgenen.",
+    "Jeg drikker te hver kveld før jeg legger meg.",
+    "Det kommer an på dagen – noen ganger kaffe, noen ganger te."
+  ]
+},
+{
+  prompt: "Hva foretrekker du: ferie i fjellet eller ferie ved stranden?",
+  translation: "Что ты предпочитаешь: отдых в горах или на пляже?",
+  hints: [
+    "Jeg foretrekker stranden, jeg liker å bade og sole meg.",
+    "Jeg liker fjellet, jeg går gjerne turer der.",
+    "Jeg liker begge deler, men fjellet gir mer ro."
+  ]
+},
+{
+  prompt: "Hva foretrekker du: gå en tur eller bli hjemme og se en film?",
+  translation: "Что ты предпочитаешь: гулять или оставаться дома и смотреть фильм?",
+  hints: [
+    "Jeg liker å gå tur når været er fint.",
+    "Noen ganger vil jeg bare slappe av og se en film.",
+    "Jeg prøver å gå en tur først, og se film etterpå."
+  ]
+},
+{
+  prompt: "Liker du å spise på restaurant?",
+  translation: "Тебе нравится есть в ресторане?",
+  hints: [
+    "Ja, jeg liker det veldig godt.",
+    "Jeg gjør det av og til, men jeg lager heller mat hjemme.",
+    "Ja, spesielt når jeg er sammen med venner."
+  ]
+},
+{
+  prompt: "Liker du regn?",
+  translation: "Тебе нравится дождь?",
+  hints: [
+    "Ja, jeg synes det er koselig å høre regnet.",
+    "Nei, jeg liker sol bedre.",
+    "Det er greit, men ikke hver dag."
+  ]
+},
+{
+  prompt: "Liker du å danse?",
+  translation: "Тебе нравится танцевать?",
+  hints: [
+    "Ja, jeg elsker å danse når jeg går på fest.",
+    "Jeg danser bare litt hjemme for moro skyld.",
+    "Jeg liker musikk, men jeg danser ikke så mye."
+  ]
+},
+{
+  prompt: "Driver du med sport?",
+  translation: "Ты занимаешься спортом?",
+  hints: [
+    "Ja, jeg trener på treningssenter to ganger i uka.",
+    "Nei, men jeg prøver å gå tur hver dag.",
+    "Av og til spiller jeg fotball med venner."
+  ]
+},
+{
+  prompt: "Hva er din favorittsport?",
+  translation: "Какой твой любимый вид спорта?",
+  hints: [
+    "Jeg liker å se på fotball.",
+    "Favorittsporten min er svømming.",
+    "Jeg liker å jogge og sykle."
+  ]
+},
+{
+  prompt: "Hva er din favorittferie (høytid)?",
+  translation: "Какой твой любимый праздник?",
+  hints: [
+    "Jeg liker julen, det er så hyggelig.",
+    "Påsken er favoritten min, jeg reiser ofte på fjellet.",
+    "Jeg liker sommerferien, fordi jeg kan slappe av."
+  ]
+},
+{
+  prompt: "Liker du å lage mat?",
+  translation: "Тебе нравится готовить?",
+  hints: [
+    "Ja, jeg lager middag nesten hver dag.",
+    "Jeg liker å bake mer enn å lage mat.",
+    "Nei, jeg lager bare enkel mat."
+  ]
+},
+{
+  prompt: "Hva slags mat foretrekker du, salt eller søtt?",
+  translation: "Какую еду ты предпочитаешь — солёную или сладкую?",
+  hints: [
+    "Jeg liker søtt, spesielt sjokolade.",
+    "Jeg foretrekker salt mat, for eksempel pizza eller suppe.",
+    "Det kommer an på humøret mitt."
+  ]
+},
+{
+  prompt: "Liker du å reise?",
+  translation: "Ты любишь путешествовать?",
+  hints: [
+    "Ja, jeg elsker å oppleve nye steder.",
+    "Jeg liker å reise, men jeg liker også å komme hjem.",
+    "Jeg reiser når jeg har tid og penger."
+  ]
+},
+{
+  prompt: "Hva er drømmejobben din?",
+  translation: "Какая твоя работа мечты?",
+  hints: [
+    "Jeg vil jobbe som fotograf.",
+    "Drømmejobben min er å ha et eget firma.",
+    "Jeg vil gjerne jobbe med mennesker og språk."
+  ]
+},
+{
+  prompt: "Hva jobber du med?",
+  translation: "Кем ты работаешь?",
+  hints: [
+    "Jeg jobber som lærer på en skole.",
+    "Jeg jobber i butikk.",
+    "Jeg jobber deltid på et kontor."
+  ]
+},
+{
+  prompt: "Hva gjorde du i går kl. 12:00?",
+  translation: "Что ты делал(а) вчера в 12:00?",
+  hints: [
+    "Da spiste jeg lunsj med kollegaene mine.",
+    "Jeg var på jobb da.",
+    "Jeg tok en liten pause og drakk kaffe."
+  ]
+},
+{
+  prompt: "Hva gjorde du i går kl. 22:00?",
+  translation: "Что ты делал(а) вчера в 22:00?",
+  hints: [
+    "Da så jeg på TV.",
+    "Jeg lå allerede i senga og leste en bok.",
+    "Jeg snakket litt med en venn før jeg sovnet."
+  ]
+},
+{
+  prompt: "Hva gjorde du i går kl. 18:00?",
+  translation: "Что ты делал(а) вчера в 18:00?",
+  hints: [
+    "Jeg lagde middag til familien.",
+    "Jeg var ute og gikk tur.",
+    "Jeg ryddet litt hjemme."
+  ]
+},
+{
+  prompt: "Hva gjorde du i går kl. 09:00?",
+  translation: "Что ты делал(а) вчера в 9:00?",
+  hints: [
+    "Jeg var på jobb og svarte på e-poster.",
+    "Jeg spiste frokost og drakk kaffe.",
+    "Jeg tok bussen til sentrum."
+  ]
+},
+{
+  prompt: "Hva gjorde du i dag kl. 08:00?",
+  translation: "Что ты делал(а) сегодня в 8:00?",
+  hints: [
+    "Jeg var på vei til jobben.",
+    "Jeg spiste frokost og snakket med familien min.",
+    "Jeg hadde nettmøte med kollegaene mine."
+  ]
+}
+{
+  prompt: "Hva gjorde du 3. september?",
+  translation: "Что ты делал(а) 3 сентября?",
+  hints: [
+    "Jeg husker ikke helt, men jeg tror jeg jobbet den dagen.",
+    "Jeg var på tur med familien min.",
+    "Jeg hadde fri og slappet av hjemme."
+  ]
+},
+{
+  prompt: "Hva er planene dine for i morgen?",
+  translation: "Какие у тебя планы на завтра?",
+  hints: [
+    "Jeg skal jobbe om dagen og trene på kvelden.",
+    "Jeg skal møte en venn og drikke kaffe sammen.",
+    "Jeg skal rydde hjemme og kanskje se en film."
+  ]
+},
+{
+  prompt: "Hva skal du gjøre etter timen?",
+  translation: "Что ты будешь делать после урока?",
+  hints: [
+    "Jeg skal lage middag.",
+    "Jeg skal gå en tur med hunden min.",
+    "Jeg skal handle litt i butikken."
+  ]
+},
+{
+  prompt: "Hva skal du gjøre i kveld?",
+  translation: "Что ты будешь делать сегодня вечером?",
+  hints: [
+    "Jeg skal slappe av og se på TV.",
+    "Jeg skal lese litt norsk og drikke te.",
+    "Jeg skal besøke en venninne."
+  ]
+},
+{
+  prompt: "Hva skal du gjøre i morgen kveld?",
+  translation: "Что ты будешь делать завтра вечером?",
+  hints: [
+    "Jeg skal lage noe godt til middag.",
+    "Jeg skal gå på kino med kollegaene mine.",
+    "Jeg skal bare være hjemme og hvile."
+  ]
+},
+{
+  prompt: "Hva skal du gjøre på søndag?",
+  translation: "Что ты будешь делать в воскресенье?",
+  hints: [
+    "Jeg skal sove lenge og spise god frokost.",
+    "Jeg skal besøke foreldrene mine.",
+    "Jeg skal gå en tur i skogen."
+  ]
+},
+{
+  prompt: "Hvor mange språk snakker du?",
+  translation: "На скольких языках ты говоришь?",
+  hints: [
+    "Jeg snakker to språk: russisk og norsk.",
+    "Jeg snakker litt engelsk og litt spansk.",
+    "Jeg kan tre språk, men norsk er det vanskeligste."
+  ]
+},
+{
+  prompt: "Hvor mange ganger har du vært på kino i år?",
+  translation: "Сколько раз ты был(а) в кино в этом году?",
+  hints: [
+    "Kanskje to eller tre ganger.",
+    "Jeg har ikke vært på kino i år.",
+    "Jeg går på kino nesten hver måned."
+  ]
+},
+{
+  prompt: "Hvor mange ganger har du vært i Spania?",
+  translation: "Сколько раз ты был(а) в Испании?",
+  hints: [
+    "Jeg har vært der én gang, på ferie.",
+    "Jeg har aldri vært i Spania, men jeg vil gjerne reise dit.",
+    "Jeg har vært i Spania mange ganger, jeg elsker landet."
+  ]
+},
+{
+  prompt: "Hvor mange ganger har du vært i Sverige?",
+  translation: "Сколько раз ты был(а) в Швеции?",
+  hints: [
+    "Jeg har vært der flere ganger, det er ikke så langt.",
+    "Jeg var i Sverige i fjor sommer.",
+    "Jeg har aldri vært der, men jeg vil gjerne dra dit."
+  ]
+},
+{
+  prompt: "Har du noen gang vært i Japan? Har du lyst til å reise dit?",
+  translation: "Ты когда-нибудь был(а) в Японии? Хочешь туда поехать?",
+  hints: [
+    "Nei, jeg har aldri vært der, men jeg drømmer om å dra.",
+    "Ja, jeg var der for fem år siden, det var fantastisk!",
+    "Nei, det er litt for langt for meg, men kulturen er spennende."
+  ]
+},
+{
+  prompt: "Har du noen gang vært i Kina? Har du lyst til å reise dit?",
+  translation: "Ты когда-нибудь был(а) в Китае? Хочешь туда поехать?",
+  hints: [
+    "Nei, jeg har ikke vært der, men jeg har lyst til å se Beijing.",
+    "Ja, jeg var der en gang på jobb.",
+    "Nei, jeg er ikke så interessert i å reise dit."
+  ]
+},
+{
+  prompt: "Har du noen gang vært i Australia? Har du lyst til å reise dit?",
+  translation: "Ты когда-нибудь был(а) в Австралии? Хочешь туда поехать?",
+  hints: [
+    "Nei, jeg har aldri vært der, men jeg vil gjerne se kenguruer.",
+    "Ja, jeg var der i tre uker for noen år siden.",
+    "Nei, det er for langt, men landet virker spennende."
+  ]
+},
+{
+  prompt: "Har du noen gang vært forelsket?",
+  translation: "Ты когда-нибудь был(а) влюблён(а)?",
+  hints: [
+    "Ja, mange ganger!",
+    "Ja, det har jeg, det var en fin tid.",
+    "Selvfølgelig, kjærlighet er viktig i livet."
+  ]
+},
+{
+  prompt: "Hvor mange ganger har du vært gift?",
+  translation: "Сколько раз ты был(а) женат/замужем?",
+  hints: [
+    "Bare én gang.",
+    "Jeg har aldri vært gift.",
+    "To ganger, men nå bor jeg alene."
+  ]
+}
+{
+  prompt: "Kjenner du noen som bor i USA?",
+  translation: "Ты знаешь кого-нибудь, кто живёт в США?",
+  hints: [
+    "Ja, jeg har en venn som bor i New York.",
+    "Ja, kusinen min bor i California.",
+    "Nei, jeg kjenner ingen der."
+  ]
+},
+{
+  prompt: "Kjenner du noen som snakker flytende kinesisk?",
+  translation: "Ты знаешь кого-нибудь, кто говорит свободно по-китайски?",
+  hints: [
+    "Nei, jeg kjenner ingen som gjør det.",
+    "Ja, en kollega lærte kinesisk på universitetet.",
+    "Jeg kjenner en som bodde i Kina i flere år."
+  ]
+},
+{
+  prompt: "Kjenner du noen som snakker flytende spansk?",
+  translation: "Ты знаешь кого-нибудь, кто говорит свободно по-испански?",
+  hints: [
+    "Ja, læreren min snakker spansk veldig bra.",
+    "Jeg har en venn fra Mexico, han snakker spansk med meg noen ganger.",
+    "Nei, men jeg vil gjerne lære litt selv."
+  ]
+},
+{
+  prompt: "Kjenner du noen som snakker flytende italiensk?",
+  translation: "Ты знаешь кого-нибудь, кто говорит свободно по-итальянски?",
+  hints: [
+    "Ja, jeg kjenner en som har bodd i Italia.",
+    "Nei, men jeg liker italiensk språk og musikk.",
+    "Jeg har en venn som studerte i Roma."
+  ]
+},
+{
+  prompt: "Har du bil?",
+  translation: "У тебя есть машина?",
+  hints: [
+    "Ja, jeg har en liten elbil.",
+    "Nei, jeg bruker kollektivtransport.",
+    "Nei, men jeg planlegger å kjøpe en snart."
+  ]
+},
+{
+  prompt: "Har du sykkel?",
+  translation: "У тебя есть велосипед?",
+  hints: [
+    "Ja, jeg sykler til jobben hver dag.",
+    "Nei, jeg solgte sykkelen min i fjor.",
+    "Jeg har en gammel sykkel som jeg bruker om sommeren."
+  ]
+},
+{
+  prompt: "Hva er best for deg: kjøre bil eller ta tog?",
+  translation: "Что для тебя лучше: ездить на машине или на поезде?",
+  hints: [
+    "Jeg liker å ta tog, det er mer avslappende.",
+    "Jeg foretrekker bil, det er mer praktisk for meg.",
+    "Jeg bruker tog når jeg reiser langt."
+  ]
+},
+{
+  prompt: "Hvor ofte drikker du kaffe?",
+  translation: "Как часто ты пьёшь кофе?",
+  hints: [
+    "Jeg drikker kaffe hver morgen.",
+    "Bare én kopp om dagen.",
+    "Altfor ofte – kanskje fem kopper om dagen!"
+  ]
+},
+{
+  prompt: "Hvor ofte går du på kino?",
+  translation: "Как часто ты ходишь в кино?",
+  hints: [
+    "Ikke så ofte, kanskje én gang i måneden.",
+    "Jeg liker kino, men jeg ser oftest filmer hjemme.",
+    "Jeg går på kino når det kommer en god film."
+  ]
+},
+{
+  prompt: "Hvor ofte ser du nyheter på TV?",
+  translation: "Как часто ты смотришь новости по телевизору?",
+  hints: [
+    "Jeg ser nyheter hver kveld.",
+    "Ikke så ofte, jeg leser heller nyheter på nettet.",
+    "Bare når det skjer noe viktig."
+  ]
+},
+{
+  prompt: "Hvor ofte snakker du med lokalbefolkningen?",
+  translation: "Как часто ты разговариваешь с местными жителями?",
+  hints: [
+    "Hver dag, på jobb og i butikken.",
+    "Av og til, men jeg prøver å gjøre det oftere.",
+    "Jeg snakker mest norsk på jobb."
+  ]
+},
+{
+  prompt: "Hvor mye penger trenger du for å være lykkelig?",
+  translation: "Сколько денег тебе нужно, чтобы быть счастливым?",
+  hints: [
+    "Ikke så mye, bare nok til å leve komfortabelt.",
+    "Jeg tror ikke penger gjør meg lykkelig.",
+    "Jeg trenger nok til å reise og nyte livet."
+  ]
+},
+{
+  prompt: "Hva trenger du for å ha det bra?",
+  translation: "Что тебе нужно, чтобы чувствовать себя хорошо?",
+  hints: [
+    "Jeg trenger tid med familien og god søvn.",
+    "Jeg trenger ro, frisk luft og litt kaffe.",
+    "Jeg trenger venner og noe å glede meg til."
+  ]
+},
+{
+  prompt: "Hvordan har du det i dag?",
+  translation: "Как ты себя чувствуешь сегодня?",
+  hints: [
+    "Jeg har det bra, takk som spør!",
+    "Ikke så verst, men jeg er litt trøtt.",
+    "Veldig bra, jeg sov godt i natt."
+  ]
+},
+{
+  prompt: "Hva spiste du til frokost i dag?",
+  translation: "Что ты ел(а) на завтрак сегодня?",
+  hints: [
+    "Jeg spiste brødskiver med ost og drakk kaffe.",
+    "Jeg hadde havregrøt og litt frukt.",
+    "Bare en kopp kaffe, jeg hadde ikke tid til mer."
+  ]
+}
+{
+  prompt: "Hva er hovedstaden i Brasil?",
+  translation: "Какая столица Бразилии?",
+  hints: [
+    "Hovedstaden i Brasil er Brasília.",
+    "Det er ikke Rio de Janeiro, men Brasília.",
+    "Brasília ble bygget som hovedstad i 1960."
+  ]
+},
+{
+  prompt: "Hva er hovedstaden i Australia?",
+  translation: "Какая столица Австралии?",
+  hints: [
+    "Hovedstaden er Canberra.",
+    "Mange tror det er Sydney, men det er Canberra.",
+    "Canberra ligger mellom Sydney og Melbourne."
+  ]
+},
+{
+  prompt: "Hva heter den største elva i verden?",
+  translation: "Как называется самая длинная река в мире?",
+  hints: [
+    "Den heter Amazonas.",
+    "Noen sier Nilen, men Amazonas er lengre.",
+    "Amazonas renner gjennom Sør-Amerika."
+  ]
+},
+{
+  prompt: "Hva heter den høyeste fjellet i verden?",
+  translation: "Как называется самая высокая гора в мире?",
+  hints: [
+    "Det høyeste fjellet er Mount Everest.",
+    "Mount Everest ligger i Himalaya.",
+    "Det er over 8800 meter høyt."
+  ]
+},
+{
+  prompt: "Hva heter den nærmeste stjernen til jorda?",
+  translation: "Как называется ближайшая к Земле звезда?",
+  hints: [
+    "Det er sola.",
+    "Sola er vår nærmeste stjerne.",
+    "Uten sola ville det ikke vært liv på jorda."
+  ]
+},
+{
+  prompt: "Hvor mange kontinenter finnes det på jorda?",
+  translation: "Сколько континентов на Земле?",
+  hints: [
+    "Det finnes sju kontinenter.",
+    "Europa, Asia, Afrika, Amerika, Oseania og Antarktis.",
+    "Noen sier seks, men vanligvis regner man sju."
+  ]
+},
+{
+  prompt: "Hva heter havet mellom Europa og Afrika?",
+  translation: "Как называется море между Европой и Африкой?",
+  hints: [
+    "Det heter Middelhavet.",
+    "Middelhavet ligger mellom Italia og Nord-Afrika.",
+    "Mange ferierer ved Middelhavet om sommeren."
+  ]
+},
+{
+  prompt: "Hva er verdens største land?",
+  translation: "Какая самая большая страна в мире?",
+  hints: [
+    "Det er Russland.",
+    "Russland er det største landet i verden.",
+    "Det strekker seg over elleve tidssoner."
+  ]
+},
+{
+  prompt: "Hva er verdens minste land?",
+  translation: "Какая самая маленькая страна в мире?",
+  hints: [
+    "Det er Vatikanstaten.",
+    "Vatikanet ligger i Roma.",
+    "Der bor paven."
+  ]
+},
+{
+  prompt: "Hvor mange planeter er det i solsystemet?",
+  translation: "Сколько планет в солнечной системе?",
+  hints: [
+    "Det er åtte planeter.",
+    "Før var det ni, men Pluto teller ikke lenger.",
+    "De heter Merkur, Venus, Jorda, Mars, Jupiter, Saturn, Uranus og Neptun."
+  ]
+},
+{
+  prompt: "Hva heter hovedstaden i Norge?",
+  translation: "Как называется столица Норвегии?",
+  hints: [
+    "Hovedstaden er Oslo.",
+    "Oslo ligger sør i landet.",
+    "Der bor nesten én million mennesker."
+  ]
+},
+{
+  prompt: "Hva heter det største havet på jorda?",
+  translation: "Как называется самый большой океан на Земле?",
+  hints: [
+    "Det heter Stillehavet.",
+    "Stillehavet er det største havet i verden.",
+    "Det ligger mellom Asia og Amerika."
+  ]
+},
+{
+  prompt: "Hva heter verdens største ørken?",
+  translation: "Как называется самая большая пустыня в мире?",
+  hints: [
+    "Det er Antarktis, ikke Sahara.",
+    "Antarktis regnes som en kald ørken.",
+    "Sahara er den største varme ørkenen."
+  ]
+},
+{
+  prompt: "Hvor mange dager er det i et år?",
+  translation: "Сколько дней в году?",
+  hints: [
+    "Det er 365 dager i et vanlig år.",
+    "I et skuddår er det 366 dager.",
+    "Februar får en ekstra dag hvert fjerde år."
+  ]
+},
+{
+  prompt: "Hva er hovedspråket i Canada?",
+  translation: "Какой официальный язык в Канаде?",
+  hints: [
+    "Det er to språk: engelsk og fransk.",
+    "Engelsk snakkes mest, men i Quebec snakker mange fransk.",
+    "Canada er et tospråklig land."
+  ]
+}
 ];
