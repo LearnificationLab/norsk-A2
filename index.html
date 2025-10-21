@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La oss snakke</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(145deg, #eef2ff 0%, #fff5f7 100%);
+        color: #1a202c;
+        min-height: 100vh;
+      }
+
+      .app {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 4rem;
+      }
+
+      .app__header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .app__title {
+        margin: 0 0 0.4rem;
+        font-size: 2.2rem;
+      }
+
+      .app__subtitle {
+        margin: 0 auto;
+        max-width: 32rem;
+        font-size: 1rem;
+        color: #4a5568;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 18px;
+        box-shadow: 0 15px 35px rgba(45, 55, 72, 0.12);
+        padding: 1.75rem;
+        margin-bottom: 1.5rem;
+        transition: transform 150ms ease, box-shadow 150ms ease;
+      }
+
+      .card--centered {
+        text-align: center;
+      }
+
+      .card--hidden {
+        display: none;
+      }
+
+      .card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        gap: 0.75rem;
+      }
+
+      .card__title {
+        margin: 0;
+        font-size: 1.4rem;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        padding: 0.75rem 1.4rem;
+        border-radius: 999px;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(99, 102, 241, 0.35);
+        outline-offset: 2px;
+      }
+
+      .button--primary {
+        background: #6366f1;
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.25);
+      }
+
+      .button--primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(99, 102, 241, 0.35);
+      }
+
+      .button--secondary {
+        background: #a855f7;
+        color: #fff;
+        box-shadow: 0 8px 16px rgba(168, 85, 247, 0.2);
+      }
+
+      .button--secondary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 20px rgba(168, 85, 247, 0.28);
+      }
+
+      .button--ghost {
+        background: transparent;
+        color: #4a5568;
+        border: 2px solid rgba(99, 102, 241, 0.25);
+      }
+
+      .button--ghost:hover {
+        background: rgba(99, 102, 241, 0.08);
+      }
+
+      .question-card {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .question-card__prompt {
+        font-size: 1.1rem;
+        margin: 0;
+      }
+
+      .question-card__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.2rem;
+      }
+
+      .question-card__translation {
+        margin: 0;
+        padding: 0.75rem 1rem;
+        background: rgba(99, 102, 241, 0.08);
+        border-radius: 12px;
+        color: #3730a3;
+        font-weight: 600;
+      }
+
+      .question-card__hints {
+        padding-left: 1.1rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .question-card__hints li {
+        background: rgba(168, 85, 247, 0.08);
+        padding: 0.6rem 0.9rem;
+        border-radius: 10px;
+        color: #6b21a8;
+      }
+
+      .ask-textarea {
+        width: 100%;
+        border-radius: 14px;
+        border: 2px solid rgba(99, 102, 241, 0.15);
+        padding: 0.9rem 1.1rem;
+        font-size: 1rem;
+        font-family: inherit;
+        resize: vertical;
+      }
+
+      .ask-textarea:focus-visible {
+        outline: 3px solid rgba(168, 85, 247, 0.2);
+      }
+
+      .ask-mode__hint {
+        margin-top: 0.75rem;
+        color: #4a5568;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 600px) {
+        .app__title {
+          font-size: 1.8rem;
+        }
+
+        .card {
+          padding: 1.4rem;
+        }
+
+        .card__header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .question-card__actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1 class="app__title">La oss snakke</h1>
+        <p class="app__subtitle">Velg hvordan du vil øve: svar på spørsmål eller lag dine egne.</p>
+      </header>
+
+      <section id="mode-selection" class="card card--centered">
+        <h2 class="card__title">Hva vil du gjøre?</h2>
+        <div class="button-group">
+          <button id="answer-mode-btn" class="button button--primary">Svar på spørsmål</button>
+          <button id="ask-mode-btn" class="button button--secondary">Still spørsmål</button>
+        </div>
+      </section>
+
+      <section id="answer-mode" class="card card--hidden">
+        <header class="card__header">
+          <h2 class="card__title">Svar på et spørsmål</h2>
+          <button id="new-question-btn" class="button button--ghost">Nytt spørsmål</button>
+        </header>
+
+        <article class="question-card">
+          <p id="question-text" class="question-card__prompt">Trykk på «Nytt spørsmål» for å starte.</p>
+          <div class="question-card__actions">
+            <button id="show-translation-btn" class="button button--secondary">Oversettelse</button>
+            <button id="show-hints-btn" class="button button--secondary">Tips</button>
+          </div>
+          <p id="question-translation" class="question-card__translation card--hidden"></p>
+          <ul id="question-hints" class="question-card__hints card--hidden"></ul>
+        </article>
+      </section>
+
+      <section id="ask-mode" class="card card--hidden">
+        <h2 class="card__title">Still ditt eget spørsmål</h2>
+        <p>Bruk dette feltet til å skrive spørsmål du vil ta med til timen eller øve på senere. Å formulere spørsmål på norsk styrker grammatikk og ordforråd.</p>
+        <textarea
+          id="ask-mode-input"
+          class="ask-textarea"
+          rows="6"
+          placeholder="Skriv spørsmålet ditt her…"
+        ></textarea>
+        <p class="ask-mode__hint">Tips: Skriv flere varianter av det samme spørsmålet for å øve på ordstilling og tidsformer.</p>
+      </section>
+    </main>
+
+    <script>
+      // Inline task bank; extend with additional entries as needed.
+      const QUESTION_BANK = [
+        {
+          prompt: "Hva liker du å gjøre i helgene?",
+          translation: "Что ты любишь делать по выходным?",
+          hints: [
+            "Jeg liker å gå tur i skogen.",
+            "Noen ganger besøker jeg venner.",
+            "Jeg slapper av hjemme og ser på film."
+          ]
+        },
+        {
+          prompt: "Kan du beskrive leiligheten din?",
+          translation: "Ты можешь описать свою квартиру?",
+          hints: [
+            "Leiligheten min er lys og koselig.",
+            "Det er to soverom og en stor stue.",
+            "Kjøkkenet er moderne med nye hvitevarer."
+          ]
+        },
+        {
+          prompt: "Hvilken norsk mat har du prøvd?",
+          translation: "Какую норвежскую еду ты пробовал?",
+          hints: [
+            "Jeg har prøvd brunost og liker den søte smaken.",
+            "Fiskekaker er en favoritt i familien.",
+            "Jeg vil gjerne smake på fårikål neste høst."
+          ]
+        },
+        {
+          prompt: "Hva er planene dine for i morgen?",
+          translation: "Какие у тебя планы на завтра?",
+          hints: [
+            "Jeg skal på jobb klokken åtte.",
+            "Etter jobb skal jeg trene på treningssenteret.",
+            "Om kvelden vil jeg lese en norsk bok."
+          ]
+        },
+        {
+          prompt: "Hvordan reiser du til skolen eller jobben?",
+          translation: "Как ты добираешься до школы или работы?",
+          hints: [
+            "Jeg tar bussen fordi det er lettvint.",
+            "Når det er fint vær, sykler jeg.",
+            "Av og til kjører kollegaen min."
+          ]
+        }
+      ];
+
+      (() => {
+        const questionBank = Array.isArray(window.QUESTION_BANK)
+          ? window.QUESTION_BANK.slice()
+          : [];
+
+        const modeSelection = document.getElementById("mode-selection");
+        const answerMode = document.getElementById("answer-mode");
+        const askMode = document.getElementById("ask-mode");
+
+        const answerModeBtn = document.getElementById("answer-mode-btn");
+        const askModeBtn = document.getElementById("ask-mode-btn");
+        const newQuestionBtn = document.getElementById("new-question-btn");
+        const showTranslationBtn = document.getElementById("show-translation-btn");
+        const showHintsBtn = document.getElementById("show-hints-btn");
+
+        const questionText = document.getElementById("question-text");
+        const questionTranslation = document.getElementById("question-translation");
+        const questionHints = document.getElementById("question-hints");
+
+        let currentQuestionIndex = null;
+
+        const hideElement = (el) => {
+          el.classList.add("card--hidden");
+        };
+
+        const showElement = (el) => {
+          el.classList.remove("card--hidden");
+        };
+
+        const resetRevealStates = () => {
+          hideElement(questionTranslation);
+          hideElement(questionHints);
+          questionTranslation.textContent = "";
+          questionHints.innerHTML = "";
+        };
+
+        const pickRandomQuestion = () => {
+          if (!questionBank.length) {
+            questionText.textContent =
+              "Spørsmålsbanken er tom. Legg til flere oppgaver i QUESTION_BANK-arrayet.";
+            resetRevealStates();
+            return;
+          }
+
+          let nextIndex = Math.floor(Math.random() * questionBank.length);
+          if (questionBank.length > 1 && nextIndex === currentQuestionIndex) {
+            nextIndex = (nextIndex + 1) % questionBank.length;
+          }
+          currentQuestionIndex = nextIndex;
+          const question = questionBank[currentQuestionIndex];
+
+          questionText.textContent = question.prompt;
+          resetRevealStates();
+        };
+
+        const revealTranslation = () => {
+          if (currentQuestionIndex === null) {
+            questionText.textContent = "Last inn et spørsmål først.";
+            return;
+          }
+
+          const question = questionBank[currentQuestionIndex];
+          questionTranslation.textContent = question.translation;
+          showElement(questionTranslation);
+        };
+
+        const revealHints = () => {
+          if (currentQuestionIndex === null) {
+            questionText.textContent = "Last inn et spørsmål først.";
+            return;
+          }
+
+          const { hints } = questionBank[currentQuestionIndex];
+          questionHints.innerHTML = "";
+          hints.forEach((hint) => {
+            const li = document.createElement("li");
+            li.textContent = hint;
+            questionHints.appendChild(li);
+          });
+          showElement(questionHints);
+        };
+
+        const swapMode = (mode) => {
+          hideElement(modeSelection);
+          if (mode === "answer") {
+            showElement(answerMode);
+            hideElement(askMode);
+            pickRandomQuestion();
+          } else {
+            showElement(askMode);
+            hideElement(answerMode);
+          }
+        };
+
+        answerModeBtn?.addEventListener("click", () => swapMode("answer"));
+        askModeBtn?.addEventListener("click", () => swapMode("ask"));
+        newQuestionBtn?.addEventListener("click", pickRandomQuestion);
+        showTranslationBtn?.addEventListener("click", revealTranslation);
+        showHintsBtn?.addEventListener("click", revealHints);
+      })();
+    </script>
+  </body>
+</html>
