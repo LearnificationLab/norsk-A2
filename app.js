@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const question = dataState.questions[nextIndex];
     ui.questionText.textContent = question.text;
     ui.translationText.textContent = question.translation;
-    ui.tipText.textContent = question.tip;
+    renderTipContent(question.tip);
 
     resetHintBlocks();
     setHintButtonsEnabled(true);
@@ -245,6 +245,59 @@ document.addEventListener('DOMContentLoaded', () => {
     resetHintBlocks();
     setHintButtonsEnabled(false);
     setNextEnabled(false);
+  }
+
+  function renderTipContent(rawTip) {
+    if (!ui.tipText) {
+      return;
+    }
+
+    ui.tipText.textContent = '';
+
+    if (typeof rawTip !== 'string') {
+      return;
+    }
+
+    const trimmedTip = rawTip.trim();
+    if (trimmedTip.length === 0) {
+      return;
+    }
+
+    const segments = splitTipSegments(trimmedTip);
+
+    if (segments.length <= 1) {
+      ui.tipText.textContent = trimmedTip;
+      return;
+    }
+
+    segments.forEach((segment, index) => {
+      const span = document.createElement('span');
+      span.className = index === 0 ? 'block' : 'block mt-2';
+      span.textContent = segment;
+      ui.tipText.appendChild(span);
+    });
+  }
+
+  function splitTipSegments(rawTip) {
+    if (typeof rawTip !== 'string') {
+      return [];
+    }
+
+    const sanitized = rawTip.trim();
+    if (sanitized.length === 0) {
+      return [];
+    }
+
+    const segmented = sanitized
+      .split(/\s\/\s|\s\/|\/\s/g)
+      .map((segment) => segment.trim())
+      .filter((segment) => segment.length > 0);
+
+    if (segmented.length <= 1) {
+      return [sanitized];
+    }
+
+    return segmented;
   }
 
   function validateQuestionData(raw) {
