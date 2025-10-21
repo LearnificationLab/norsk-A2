@@ -1,0 +1,105 @@
+{
+  "topic": "Sample2",
+  "questions": [
+  {
+    "text": "Hva er din favorittfarge?",
+    "translation": "Какой твой любимый цвет?",
+    "tip": "(A1) Jeg liker blå. / (A2+) Favorittfargen min er mørkeblå, fordi den minner meg om havet."
+  },
+  {
+    "text": "Hva er din favorittdrikke?",
+    "translation": "Какой твой любимый напиток?",
+    "tip": "(A1) Jeg liker kaffe. / (A2+) Jeg foretrekker svart kaffe uten sukker."
+  },
+  {
+    "text": "Hva er din favorittårstid?",
+    "translation": "Какое твоё любимое время года?",
+    "tip": "(A1) Jeg liker sommer. / (A2+) Jeg liker sommeren fordi det er varmt og lyst."
+  },
+  {
+    "text": "Hva er din favorittmåned i året?",
+    "translation": "Какой твой любимый месяц в году?",
+    "tip": "(A1) Jeg liker juli. / (A2+) Favorittmåneden min er juli, fordi jeg har bursdag da."
+  },
+  {
+    "text": "Hva er din favorittdag i uken?",
+    "translation": "Какой твой любимый день недели?",
+    "tip": "(A1) Jeg liker lørdag. / (A2+) Jeg liker lørdag fordi jeg kan sove lenge og slappe av."
+  },
+  {
+    "text": "Hva er din favorittsang?",
+    "translation": "Какая твоя любимая песня?",
+    "tip": "(A1) Jeg liker «Happy». / (A2+) Favorittsangen min er «Imagine» av John Lennon."
+  },
+  {
+    "text": "Hva er ditt favoritt-TV-program?",
+    "translation": "Какая твоя любимая телепередача?",
+    "tip": "(A1) Jeg liker nyheter. / (A2+) Favorittprogrammet mitt er en dokumentarserie på NRK."
+  },
+  {
+    "text": "Hva foretrekker du: te eller kaffe?",
+    "translation": "Что ты предпочитаешь: чай или кофе?",
+    "tip": "(A1) Jeg foretrekker kaffe. / (A2+) Jeg liker begge, men drikker mest kaffe om morgenen."
+  },
+  {
+    "text": "Hva foretrekker du: ferie i fjellet eller ferie ved stranden?",
+    "translation": "Что ты предпочитаешь: отдых в горах или на пляже?",
+    "tip": "(A1) Jeg liker stranden. / (A2+) Jeg foretrekker fjellet fordi jeg liker å gå tur."
+  },
+  {
+    "text": "Hva foretrekker du: gå en tur eller bli hjemme og se en film?",
+    "translation": "Что ты предпочитаешь: прогулку или остаться дома и посмотреть фильм?",
+    "tip": "(A1) Jeg liker å gå tur. / (A2+) Jeg går helst en tur, men noen ganger ser jeg film hjemme."
+  },
+  {
+    "text": "Liker du å spise på restaurant?",
+    "translation": "Тебе нравится есть в ресторане?",
+    "tip": "(A1) Ja, jeg liker det. / (A2+) Jeg liker å spise ute med venner av og til."
+  },
+  {
+    "text": "Liker du regn?",
+    "translation": "Тебе нравится дождь?",
+    "tip": "(A1) Nei, ikke så mye. / (A2+) Ja, jeg liker regn fordi det er koselig å være inne da."
+  },
+  {
+    "text": "Liker du å danse?",
+    "translation": "Тебе нравится танцевать?",
+    "tip": "(A1) Ja, litt. / (A2+) Ja, jeg elsker å danse når jeg hører musikk."
+  },
+  {
+    "text": "Driver du med sport?",
+    "translation": "Ты занимаешься спортом?",
+    "tip": "(A1) Ja, jeg spiller fotball. / (A2+) Jeg trener to ganger i uka på et treningssenter."
+  },
+  {
+    "text": "Hva er din favorittsport?",
+    "translation": "Какой твой любимый вид спорта?",
+    "tip": "(A1) Jeg liker fotball. / (A2+) Favorittsporten min er svømming fordi det er avslappende."
+  },
+  {
+    "text": "Hva er din favorittferie (høytid)?",
+    "translation": "Какой твой любимый праздник?",
+    "tip": "(A1) Jeg liker jul. / (A2+) Jeg liker jul fordi jeg feirer den med familien min."
+  },
+  {
+    "text": "Liker du å lage mat?",
+    "translation": "Ты любишь готовить?",
+    "tip": "(A1) Ja, litt. / (A2+) Ja, jeg liker å lage mat når jeg har tid."
+  },
+  {
+    "text": "Hva slags mat foretrekker du, salt eller søtt?",
+    "translation": "Какую еду ты предпочитаешь: солёную или сладкую?",
+    "tip": "(A1) Jeg liker søtt. / (A2+) Jeg foretrekker salt mat, som pizza og pasta."
+  },
+  {
+    "text": "Liker du å reise?",
+    "translation": "Ты любишь путешествовать?",
+    "tip": "(A1) Ja, jeg liker det. / (A2+) Ja, jeg elsker å reise og oppleve nye kulturer."
+  },
+  {
+    "text": "Hva er drømmejobben din?",
+    "translation": "Какая у тебя работа мечты?",
+    "tip": "(A1) Jeg vil bli lærer. / (A2+) Drømmejobben min er å jobbe som språklærer i utlandet."
+  }
+]
+}

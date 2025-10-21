@@ -87,8 +87,8 @@ We are building a small, independent micro web application.
 The app will:
 * Be simple (low complexity, no need for heavy optimization, security hardening, or backend logic).
 * Be self-contained (no shared code, no monorepo, no cross-app dependencies).
-* Be embedded inside a Wix page (likely via <iframe>).
-* Be hosted as a static website (e.g. AWS S3).
+* Can be embedded inside a Wix page (likely via <iframe>).
+* Be hosted as a static website (e.g. GitHub Pages).
 
 ### Key Principles
 
@@ -99,11 +99,10 @@ The app will:
 
 ### Approved Tech Stack
 
-- React (UI framework)
-- Vite (bundler & dev server)
-- TypeScript (language, strict mode)
-- TailwindCSS (styling)
-- pnpm (package manager, required)
+- HTML
+- CSS
+- JavaScript
+- Tailwind
 
 ### Explicitly Out of Scope
 
